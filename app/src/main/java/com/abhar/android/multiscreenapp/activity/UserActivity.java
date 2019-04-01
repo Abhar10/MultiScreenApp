@@ -10,24 +10,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.abhar.android.multiscreenapp.R;
 import com.abhar.android.multiscreenapp.adapter.UserAdapter;
-import com.abhar.android.multiscreenapp.api.Api;
-import com.abhar.android.multiscreenapp.fragment.StudentDetailFragment;
+import com.abhar.android.multiscreenapp.api.ApiClient;
+import com.abhar.android.multiscreenapp.api.ApiInterface;
 import com.abhar.android.multiscreenapp.model.User;
+import com.abhar.android.multiscreenapp.util.Constant;
 import com.facebook.shimmer.ShimmerFrameLayout;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * UserActivity class get the list of users and displays it. Further we can get details of
+ * particular User and fetch his/her posts.
+ */
 public class UserActivity extends AppCompatActivity {
 
     private ArrayList<User> userList = new ArrayList<>();
@@ -41,6 +39,8 @@ public class UserActivity extends AppCompatActivity {
     private int Id;
     private String name;
     private ShimmerFrameLayout mShimmerViewContainer;
+    private ApiInterface apiInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +48,8 @@ public class UserActivity extends AppCompatActivity {
         initialize();
         if(savedInstanceState != null)
         {
-            mIdTv.setText(savedInstanceState.getString("Id"));
-            mNameTv.setText(savedInstanceState.getString("Name"));
+            mIdTv.setText(savedInstanceState.getString(Constant.idKey));
+            mNameTv.setText(savedInstanceState.getString(Constant.idName));
             imageView.setBackgroundResource(R.drawable.student_img);
         }
         retrofitDataFetch();
@@ -60,38 +60,8 @@ public class UserActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("Name",mNameTv.getText().toString());
-        outState.putString("Id",mIdTv.getText().toString());
-    }
-
-    private void retrofitDataFetch () {
-        Retrofit mRetrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Api api = mRetrofit.create(Api.class);
-
-
-        Call<ArrayList<User>> call = api.getUsers();
-        call.enqueue(new Callback<ArrayList<User>>() {
-            @Override
-            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response)
-            {
-                ArrayList<User> user=response.body();
-                for(int i=0;i<user.size();i++){
-                    userList.add(new User(user.get(i).getName(),user.get(i).getRollNo()));
-                }
-                mUserAdapter.notifyDataSetChanged();
-                mShimmerViewContainer.stopShimmerAnimation();
-                mShimmerViewContainer.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
-                Log.i("TESTING", "onFailure: "+t.getMessage());
-            }
-        });
+        outState.putString(Constant.idName,mNameTv.getText().toString());
+        outState.putString(Constant.idKey,mIdTv.getText().toString());
     }
 
     @Override
@@ -107,8 +77,7 @@ public class UserActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to perform various action such as view, edit or delete on selecting an
-     * item of RecyclerView
+     * Method to display details of clicked User
      */
     private void onItemClickRecyclerView()
     {
@@ -123,20 +92,28 @@ public class UserActivity extends AppCompatActivity {
                 imageView.setBackgroundResource(R.drawable.student_img);
             }
         });}
-        private void onFetchButtonClick()
+
+    /**
+     * Method to perform action on clicking Button. It sends User Name and Id to next Activity
+     * through Intent.
+     */
+    private void onFetchButtonClick()
         {
             mFetchButton = findViewById(R.id.fetch_button);
             mFetchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     intentUserId = new Intent(UserActivity.this,UserPostActivity.class);
-                    intentUserId.putExtra("Id",Integer.parseInt(mIdTv.getText().toString()));
-                    intentUserId.putExtra("Name",mNameTv.getText().toString());
+                    intentUserId.putExtra(Constant.idKey,Integer.parseInt(mIdTv.getText().toString()));
+                    intentUserId.putExtra(Constant.idName,mNameTv.getText().toString());
                     startActivity(intentUserId);
                 }
             });
         }
 
+    /**
+     * Method to initialize all data members used in the class
+     */
     private void initialize()
     {
         mIdTv = findViewById(R.id.id_textview);
@@ -147,6 +124,34 @@ public class UserActivity extends AppCompatActivity {
         mUserRecyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
         mUserAdapter = new UserAdapter(userList);
         mUserRecyclerView.setAdapter(mUserAdapter);
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
+    }
+
+    /**
+     * Method to fetch data through API
+     */
+    private void retrofitDataFetch () {
+
+        Call<ArrayList<User>> call = apiInterface.getUsers();
+        call.enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response)
+            {
+               ArrayList<User> user=response.body();
+               for(int i=0;i<user.size();i++){
+                    userList.add(new User(user.get(i).getName(),user.get(i).getRollNo()));
+                }
+
+                mUserAdapter.notifyDataSetChanged();
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+                Log.i(getString(R.string.noResultsFetched), getString(R.string.onFailure)+t.getMessage());
+            }
+        });
     }
 }

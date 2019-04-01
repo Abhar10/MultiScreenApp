@@ -1,7 +1,9 @@
 package com.abhar.android.multiscreenapp.model;
 
-import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model Class for User
+ */
 public class User {
 
     private int id;

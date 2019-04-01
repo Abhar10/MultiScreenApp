@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 
 import com.abhar.android.multiscreenapp.R;
 
+/**
+ * Class for User Details Fragment
+ */
 public class StudentDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

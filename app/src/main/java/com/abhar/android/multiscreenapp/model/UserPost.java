@@ -1,5 +1,8 @@
 package com.abhar.android.multiscreenapp.model;
 
+/**
+ * Model Class for User Posts
+ */
 public class UserPost {
 
     private int userId, id;

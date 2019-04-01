@@ -10,18 +10,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="@dimen/margin_top_16dp">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/image_view_width"
+        android:layout_height="@dimen/image_width_height"
 
         android:id="@+id/image_view"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/margin_start_20dp"
         android:weightSum="1">
         <TextView
             android:id="@+id/name_textview"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
+            android:textSize="@dimen/text_size_24sp"
             android:freezesText="true"/>
         <TextView
             android:id="@+id/id_textview"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
+            android:textSize="@dimen/text_size_24sp"
             android:freezesText="true"/>
     </LinearLayout>
 
@@ -45,8 +45,8 @@
 
 </LinearLayout>
     <Button
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="@dimen/margin_start_5dp"
+        android:layout_marginEnd="@dimen/margin_end_5dp"
         android:id="@+id/fetch_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

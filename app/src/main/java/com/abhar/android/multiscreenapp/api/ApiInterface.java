@@ -6,11 +6,12 @@ import com.abhar.android.multiscreenapp.model.UserPost;
 import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface Api {
-    String BASE_URL="http://jsonplaceholder.typicode.com";
+/**
+ * Class ApiInterface to get Users and List of Users
+ */
+public interface ApiInterface {
 
     @GET("/users")
     Call<ArrayList<User>> getUsers();

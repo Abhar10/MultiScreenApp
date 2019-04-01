@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.abhar.android.multiscreenapp.R;
 import com.abhar.android.multiscreenapp.activity.UserActivity;
 import com.abhar.android.multiscreenapp.activity.UserPostActivity;
-import com.abhar.android.multiscreenapp.api.Api;
+
 import com.abhar.android.multiscreenapp.model.User;
 import com.abhar.android.multiscreenapp.model.UserPost;
 
