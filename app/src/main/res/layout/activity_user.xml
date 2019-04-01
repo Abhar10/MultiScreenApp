@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.UserActivity"
+    android:weightSum="1"
+    android:orientation="vertical"
+    >
+    <fragment
+        class="com.abhar.android.multiscreenapp.fragment.StudentListFragment"
+        android:id="@+id/student_list_fragment"
+        android:layout_weight="0.695"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:layout="@layout/fragment_student_list"/>
+    <View
+        android:layout_weight="0.01"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        />
+
+    <fragment
+        class="com.abhar.android.multiscreenapp.fragment.StudentDetailFragment"
+        android:id="@+id/student_detail_fragment"
+        android:layout_weight="0.295"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:layout="@layout/fragment_student_detail"/>
+</LinearLayout>

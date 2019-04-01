@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/border"
+    android:backgroundTint="@color/recColor"
+    >
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/student_img"
+        android:id="@+id/image_view_recycler"
+        android:scaleType="fitXY"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:weightSum="1">
+        <TextView
+            android:id="@+id/name_textview_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="0.5"
+            android:text="Abhar"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/id_textview_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="0.5"
+            android:text="10"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
